@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f4b823">
+<title>Inn&Out</title>
+<style>
+:root{--turmeric:#f4b823;--cardamom:#143d2c;--chili:#c62d1b;--plate:#fffdf8;--ink:#241f1a;--muted:#5c544a;--line:#e6dfd0}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--plate);color:var(--ink);font:17px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding-bottom:calc(110px + env(safe-area-inset-bottom))}
+:focus-visible{outline:3px solid var(--chili);outline-offset:2px}
+.wrap{max-width:640px;margin:0 auto;padding:0 20px}
+
+/* Hero: the one bold moment on the page */
+.hero{background:var(--turmeric);color:var(--cardamom);padding:44px 0 40px}
+.pill{display:inline-block;padding:6px 14px;border-radius:99px;background:var(--cardamom);color:#fff;font-size:15px;font-weight:600}
+.pill.closed{background:var(--chili)}
+h1{font-size:clamp(54px,18vw,100px);line-height:.88;letter-spacing:-.045em;font-weight:900;margin:20px 0 16px;overflow-wrap:anywhere}
+.tag{font-size:21px;max-width:20ch;margin:0 0 28px;font-weight:500}
+.btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:0 22px;border-radius:12px;font:inherit;font-weight:700;text-decoration:none;border:2px solid var(--cardamom);color:var(--cardamom);background:transparent;cursor:pointer}
+.btn.main{background:var(--chili);border-color:var(--chili);color:#fff}
+
+/* Menu */
+h2{font-size:30px;letter-spacing:-.02em;margin:44px 0 6px;color:var(--cardamom)}
+h3{font-size:19px;margin:26px 0 2px;color:var(--chili)}
+.item{display:grid;grid-template-columns:1fr auto;gap:2px 16px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+.item b{font-size:18px}
+.item p{margin:0;color:var(--muted);font-size:15px}
+.price{font-weight:700;text-align:right}
+.qty{display:flex;align-items:center;gap:10px;justify-self:end}
+.qty button{width:42px;height:42px;border-radius:50%;border:2px solid var(--cardamom);background:#fff;color:var(--cardamom);font:inherit;font-size:22px;line-height:1;cursor:pointer}
+.qty output{min-width:22px;text-align:center;font-weight:700}
+
+/* Hours */
+table{width:100%;border-collapse:collapse}
+td{padding:9px 0;border-bottom:1px solid var(--line)}
+td:last-child{text-align:right}
+tr.today{font-weight:700}
+#visit a{font-weight:700;color:var(--cardamom)}
+
+footer{background:var(--cardamom);color:#fff;padding:30px 0;margin-top:48px}
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="wrap">
+      <span class="pill">Open Today • Freshly Made</span>
+      <h1>Jiko Kitchen</h1>
+      <p class="tag">Authentic Kenyan favorites cooked slow over charcoal and served hot.</p>
+      <div class="btns">
+        <a href="#menu" class="btn main">View Menu</a>
+        <a href="#visit" class="btn">Opening Hours</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap" id="menu">
+    <h2>Popular Dishes</h2>
+
+    <div class="item">
+      <div>
+        <b>Nyama Choma Platter</b>
+        <p>Charcoal-grilled beef ribs served with kachumbari and ugali.</p>
+      </div>
+      <div class="qty">
+        <span class="price">KES 850</span>
+        <button type="button" onclick="updateQty(this, -1)">-</button>
+        <output>0</output>
+        <button type="button" onclick="updateQty(this, 1)">+</button>
+      </div>
+    </div>
+
+    <div class="item">
+      <div>
+        <b>Pilau ya Kuku</b>
+        <p>Spiced coastal rice simmered with tender chicken and cardamom.</p>
+      </div>
+      <div class="qty">
+        <span class="price">KES 650</span>
+        <button type="button" onclick="updateQty(this, -1)">-</button>
+        <output>0</output>
+        <button type="button" onclick="updateQty(this, 1)">+</button>
+      </div>
+    </div>
+
+    <div class="item">
+      <div>
+        <b>Swahili Coconut Curry</b>
+        <p>Rich turmeric and coconut stew served with warm chapati.</p>
+      </div>
+      <div class="qty">
+        <span class="price">KES 550</span>
+        <button type="button" onclick="updateQty(this, -1)">-</button>
+        <output>0</output>
+        <button type="button" onclick="updateQty(this, 1)">+</button>
+      </div>
+    </div>
+
+    <h2 id="visit">Hours & Location</h2>
+    <table>
+      <tr class="today">
+        <td>Monday – Friday</td>
+        <td>10:00 AM – 10:00 PM</td>
+      </tr>
+      <tr>
+        <td>Saturday</td>
+        <td>11:00 AM – 11:00 PM</td>
+      </tr>
+      <tr>
+        <td>Sunday</td>
+        <td>12:00 PM – 9:00 PM</td>
+      </tr>
+    </table>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p>© 2026 Jiko Kitchen • <a href="#menu" style="color:#fff">Back to top</a></p>
+    </div>
+  </footer>
+
+  <script>
+    function updateQty(btn, change) {
+      const output = btn.parentElement.querySelector('output');
+      let current = parseInt(output.textContent, 10);
+      if (current + change >= 0) {
+        output.textContent = current + change;
+      }
+    }
+  </script>
+
+</body>
+</html>
